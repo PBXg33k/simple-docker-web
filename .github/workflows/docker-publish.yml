@@ -111,11 +111,9 @@ jobs:
           password: ${{ secrets.PORTAINER_PASSWORD }}
           endpointId: ${{ secrets.PORTAINER_ENDPOINT_ID }}
           stackname: simple-docker-web
-          variables: |
-              tag=${{ github.ref.name }}
           docker_compose: |
             version: "3"
             services:
               http:
-                  image: $REGISTRY/$IMAGE_NAME:{{ tag }}
+                  image: $REGISTRY/$IMAGE_NAME:${{ github.ref.name }}
                   container_name: simple-docker-web
