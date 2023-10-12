@@ -114,6 +114,8 @@ jobs:
           variables: |
               tag=${{ github.ref.name }}
           docker_compose: |
+            version: "3"
+            services:
               http:
                   image: $REGISTRY/$IMAGE_NAME:{{ tag }}
                   container_name: simple-docker-web
