@@ -96,3 +96,22 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+
+      - name: portainer stack deploy
+        if: ${{ github.event_name != 'pull_request' }}
+        # You may pin to the exact commit or the version.
+        # uses: LGinC/portainer-stack-deploy@bd0630aaede92cb9b6221050f4bec62e21fb6033
+        uses: LGinC/portainer-stack-deploy@1.0
+        with:
+          serverurl: ${{ secrets.PORTAINER_URL }}
+          username: ${{ secrets.PORTAINER_USERNAME }}
+          password: ${{ secrets.PORTAINER_PASSWORD }}
+          endpointId: ${{ secrets.PORTAINER_ENDPOINT_ID }}
+          stackname: simple-docker-web
+          variables: |
+              tag=${{ github.ref.name }}
+          docker_compose: |
+              http:
+                  image: $REGISTRY/$IMAGE_NAME:{{ tag }}
+                  container_name: simple-docker-web
