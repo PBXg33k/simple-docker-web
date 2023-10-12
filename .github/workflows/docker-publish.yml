@@ -102,7 +102,6 @@ jobs:
     steps:
       - name: Trigger portainer hook
         if: ${{ github.event_name != 'pull_request' }}
-        uses: zzzze/webhook-trigger@v1.0.0
+        uses: jasongitmail/fast-webhook@v1.1.4
         with:
-          data: true
-          webhook_url: ${{ secrets.PORTAINER_HOOK }}
+          url: ${{ secrets.PORTAINER_HOOK }}
