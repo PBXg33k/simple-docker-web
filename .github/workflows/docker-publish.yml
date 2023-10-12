@@ -100,23 +100,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: Home - DEMO
     steps:
-      - name: portainer stack deploy
+      - name: Trigger portainer hook
         if: ${{ github.event_name != 'pull_request' }}
         # You may pin to the exact commit or the version.
-        # uses: LGinC/portainer-stack-deploy@bd0630aaede92cb9b6221050f4bec62e21fb6033
-        uses: LGinC/portainer-stack-deploy@1.0
+        # uses: magdemajt/trigger-webhook@edc83d0c964b43640521e976fd3c0821317aeec9
+        uses: magdemajt/trigger-webhook@v1
         with:
-          serverurl: ${{ secrets.PORTAINER_URL }}
-          username: ${{ secrets.PORTAINER_USERNAME }}
-          password: ${{ secrets.PORTAINER_PASSWORD }}
-          endpointId: ${{ secrets.PORTAINER_ENDPOINT_ID }}
-          stackname: simple-docker-web
-          variables: |
-            imageRef: $REGISTRY/$IMAGE_NAME
-            tag: ${{ github.ref.name }}
-          docker_compose: |
-            version: "3"
-            services:
-              http:
-                  image: {{ imageRef }}:{{ tag }}
-                  container_name: simple-docker-web
+          url: ${{ secrets.PORTAINER_HOOK }}
+                  
